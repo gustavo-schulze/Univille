@@ -1,5 +1,7 @@
 #Programa de enquete com votação
 
+import os
+
 
 # Cadastra uma nova opção de voto no dicionário (nome -> quantidade de votos)
 def cadastrar_opcao(opcoes):
@@ -32,14 +34,16 @@ def registrar_voto(opcoes):
         return
 
     listar_opcoes(opcoes)
-    escolha = input("Digite o nome da opção em que deseja votar: ").strip()
+    nomes = list(opcoes.keys())
+    escolha = input("Digite o número da opção em que deseja votar: ").strip()
 
-    if escolha not in opcoes:
+    if not escolha.isdigit() or not (1 <= int(escolha) <= len(nomes)):
         print("Opção não encontrada.\n")
         return
 
-    opcoes[escolha] += 1
-    print(f"Voto registrado em '{escolha}'!\n")
+    nome_escolhido = nomes[int(escolha) - 1]
+    opcoes[nome_escolhido] += 1
+    print(f"Voto registrado em '{nome_escolhido}'!\n")
 
 
 # Mostra a quantidade bruta de votos de cada opção
@@ -105,6 +109,7 @@ def main():
     opcoes = {}  # dicionário nome_da_opcao -> quantidade de votos
 
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
         exibir_menu()
         escolha = input("Escolha uma opção: ").strip()
         print()
